@@ -106,7 +106,6 @@ export default class Player extends Sprite {
       this.touched = false
     }).bind(this))
   }
-
-
+  
 
 }

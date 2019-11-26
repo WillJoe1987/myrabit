@@ -24,7 +24,7 @@ export default class Bird extends Animation {
 
     init(speed) {
         this.x = -this.width
-        this.y = (window.innerHeight+this.height)/2
+        this.y = (window.innerHeight)/2
 
         this[__.speed] = speed
 
