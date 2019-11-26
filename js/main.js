@@ -16,13 +16,13 @@ export default class Main {
   constructor() {
     // 维护当前requestAnimationFrame的id
     this.aniId    = 0
-
+    this.rate = 1
     this.restart()
   }
 
   restart() {
     databus.reset()
-
+    this.rate = 1
     canvas.removeEventListener(
       'touchstart',
       this.touchHandler
@@ -56,9 +56,9 @@ export default class Main {
       databus.enemys.push(enemy)
     }
 
-    if (databus.frame % 30 === 0) {
+    if (databus.frame % 300 === 0) {
         let bird = databus.pool.getItemByClass('bird', Bird)
-        bird.init(6)
+        bird.init(3)
         databus.birds.push(bird)
       }
 
@@ -76,7 +76,7 @@ export default class Main {
       if ( this.player.isCollideWith(enemy) ) {
           enemy.playAnimation()
           that.music.playExplosion()
-          databus.score += 1
+          databus.score += 1 * that.rate
           break
       }
     }
@@ -86,7 +86,8 @@ export default class Main {
           if (this.player.isCollideWith(bird)) {
               bird.playAnimation()
               that.music.playExplosion()
-              databus.score += 1
+              databus.score *= 2
+              that.rate *= 2
               break
           }
       }
