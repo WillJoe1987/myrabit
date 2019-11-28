@@ -151,7 +151,7 @@ export default class Player extends Sprite {
 
     this.y - this.jumpy
 
-    __.speedy = __.speedy - 1
+    __.speedy = __.speedy - .75
     // 对象回收
     if (this.y > window.innerHeight - this.height){
         this.y = window.innerHeight - this.height
