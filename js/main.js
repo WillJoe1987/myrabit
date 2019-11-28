@@ -77,18 +77,20 @@ export default class Main {
           enemy.playAnimation()
           that.music.playExplosion()
           databus.score += 1 * that.rate
+          this.player.jump()
           break
       }
     }
 
-      for (let i = 0, il = databus.birds.length; i < il; i++) {
-          let bird = databus.birds[i]
-          if (this.player.isCollideWith(bird)) {
-              bird.playAnimation()
-              that.music.playExplosion()
-              databus.score *= 2
-              that.rate *= 2
-              break
+    for (let i = 0, il = databus.birds.length; i < il; i++) {
+        let bird = databus.birds[i]
+        if (this.player.isCollideWith(bird)) {
+            bird.playAnimation()
+            that.music.playExplosion()
+            databus.score *= 2
+            that.rate *= 2
+            this.player.jump()
+            break
           }
       }
 
@@ -164,6 +166,7 @@ export default class Main {
     databus.birds.forEach((item)=>{
         item.update()
     })
+    this.player.update()
 
     this.enemyGenerate()
 

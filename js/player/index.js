@@ -11,6 +11,13 @@ const PLAYER_HEIGHT  = 80
 
 let databus = new DataBus()
 
+
+const __ = {
+    speedy: 0,
+    speedx: 0,
+    jumphiger:120
+}
+
 export default class Player extends Sprite {
   constructor() {
     super(PLAYER_IMG_SRC, PLAYER_WIDTH, PLAYER_HEIGHT)
@@ -51,7 +58,7 @@ export default class Player extends Sprite {
    */
   setAirPosAcrossFingerPosZ(x, y) {
     let disX = x - this.width / 2
-    let disY = y - this.height / 2
+    //let disY = y - this.height / 2
 
     if ( disX < 0 )
       disX = 0
@@ -59,15 +66,41 @@ export default class Player extends Sprite {
     else if ( disX > screenWidth - this.width )
       disX = screenWidth - this.width
 
-    if ( disY <= 0 )
-      disY = 0
+    //if ( disY <= 0 )
+    //  disY = 0
 
-    else if ( disY > screenHeight - this.height )
-      disY = screenHeight - this.height
+    //else if ( disY > screenHeight - this.height )
+    //  disY = screenHeight - this.height
 
     this.x = disX
-    this.y = disY
+    //this.y = disY
   }
+
+  jump(){
+      __.speedy = 20;
+      this.jumpx = this.x;
+      this.jumpy = this.y;
+  }
+
+    setAirPosAcrossFingerPosR(x, y) {
+        let disX = x - this.width / 2
+        let disY = y - this.height / 2
+
+        if (disX < 0)
+            disX = 0
+
+        else if (disX > screenWidth - this.width)
+            disX = screenWidth - this.width
+
+        if (disY <= 0)
+            disY = 0
+
+        else if (disY > screenHeight - this.height)
+            disY = screenHeight - this.height
+
+        this.x = disX
+        this.y = disY
+    }
 
   /**
    * 玩家响应手指的触摸事件
@@ -94,9 +127,15 @@ export default class Player extends Sprite {
 
       let x = e.touches[0].clientX
       let y = e.touches[0].clientY
-
-      if ( this.touched )
-        this.setAirPosAcrossFingerPosZ(x, y)
+        if(x>this.x){
+            __.speedx = 10;
+        }else if(x<this.x){
+            __.speedx = -10;
+        }else{
+            __.speedx = 0;
+        }
+      //if ( this.touched )
+       // this.setAirPosAcrossFingerPosZ(x, y)
 
     }).bind(this))
 
@@ -107,5 +146,29 @@ export default class Player extends Sprite {
     }).bind(this))
   }
   
+  update(){
+    this.y -= __.speedy
+
+    this.y - this.jumpy
+
+    __.speedy = __.speedy - 1
+    // 对象回收
+    if (this.y > window.innerHeight - this.height){
+        this.y = window.innerHeight - this.height
+        __.speedy = 0;
+    }
+    if(this.y<0) this.y=0
+
+    if(__.speedy < -10){
+        __.speedy = -10
+    }
+    this.x += __.speedx
+    if(this.x<=0){
+        this.x = 0
+    }
+      if (this.x >= screenWidth - this.width){
+          this.x = screenWidth - this.width
+    }
+  }
 
 }
